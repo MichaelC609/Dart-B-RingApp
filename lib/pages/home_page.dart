@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './simple_bottom_nav.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,8 +11,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Home Page")),
-    );
+    return const SimpleBottomNavigation();  
   }
 }
