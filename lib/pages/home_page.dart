@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import './simple_bottom_nav.dart';
+import 'simple_bottom_nav.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return const SimpleBottomNavigation();  
+    return Scaffold(
+      appBar: AppBar(title: const Text('Home Page')),
+      body: const Center(
+        child: Text('Welcome to the Home Page!'),
+      ),
+      bottomNavigationBar: const SimpleBottomNavigation(currentIndex: 0),
+    );
   }
 }

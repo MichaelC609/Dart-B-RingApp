@@ -1,87 +1,75 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
+import 'live.dart';
+import 'gallery.dart';
+import 'logs.dart';
+import 'profile.dart';
 
-class SimpleBottomNavigation extends StatefulWidget {
-  const SimpleBottomNavigation({Key? key}) : super(key: key);
+class SimpleBottomNavigation extends StatelessWidget {
+  final int currentIndex;
 
-  @override
-  State<SimpleBottomNavigation> createState() => _SimpleBottomNavigationState();
-}
+  const SimpleBottomNavigation({Key? key, required this.currentIndex}) : super(key: key);
 
-class _SimpleBottomNavigationState extends State<SimpleBottomNavigation> {
-  int _selectedIndex = 0;
-  BottomNavigationBarType _bottomNavType = BottomNavigationBarType.shifting;
+  void _onItemTapped(BuildContext context, int index) {
+    if (index == currentIndex) return; // Already on this page, do nothing
+
+    Widget destination;
+    switch (index) {
+      case 0:
+        destination = const HomePage();
+        break;
+      case 1:
+        destination = const LivePage();
+        break;
+      case 2:
+        destination = const GalleryPage();
+        break;
+      case 3:
+        destination = const LogsPage();
+        break;
+      case 4:
+        destination = const ProfilePage();
+        break;
+      default:
+        destination = const HomePage();
+    }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => destination),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('DartBell')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Selected Page: ${_navBarItems[_selectedIndex].label}"),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("BottomNavBar Type :"),
-                const SizedBox(width: 16),
-                DropdownButton<BottomNavigationBarType>(
-                    hint: Text(_bottomNavType.name),
-                    items: BottomNavigationBarType.values
-                        .map((item) => DropdownMenuItem(
-                            value: item, child: Text(item.name)))
-                        .toList(),
-                    onChanged: (val) {
-                      if (val == null) return;
-                      setState(() {
-                        _bottomNavType = val;
-                      });
-                    }),
-              ],
-            )
-          ],
+    return BottomNavigationBar(
+      currentIndex: currentIndex,
+      selectedItemColor: const Color(0xff6200ee),
+      unselectedItemColor: const Color(0xff757575),
+      type: BottomNavigationBarType.fixed,
+      onTap: (index) => _onItemTapped(context, index),
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_outlined),
+          label: 'Home',
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          selectedItemColor: const Color(0xff6200ee),
-          unselectedItemColor: const Color(0xff757575),
-          type: _bottomNavType,
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          items: _navBarItems),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.video_camera_back_outlined),
+          label: 'Live',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.photo_library_sharp),
+          label: 'Gallery',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.receipt_long_outlined),
+          label: 'Logs',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_outline_rounded),
+          label: 'Profile',
+        ),
+      ],
     );
   }
 }
-
-const _navBarItems = [
-  BottomNavigationBarItem(
-    icon: Icon(Icons.home_outlined),
-    activeIcon: Icon(Icons.home_rounded),
-    label: 'Home',
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.video_camera_back_outlined),
-    activeIcon: Icon(Icons.video_camera_back_outlined),
-    label: 'Live',
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.photo_library_sharp),
-    activeIcon: Icon(Icons.settings),
-    label: 'Clips',
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.receipt_long_outlined),
-    activeIcon: Icon(Icons.receipt_long_outlined),
-    label: 'Logs',
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.person_outline_rounded),
-    activeIcon: Icon(Icons.person_rounded),
-    label: 'Profile',
-  ),
-  
-];
