@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'simple_bottom_nav.dart';
+import 'globals.dart' as globals;
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -13,8 +14,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    const String userName = "User"; // Replace with user name
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -30,43 +29,32 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // Profile Picture
               const CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/default_pfp.png'), // Use pfp
+                backgroundImage: AssetImage('assets/default_pfp.png'),
                 backgroundColor: Colors.grey,
               ),
               const SizedBox(height: 12),
-
-              // Greeting
               Text(
-                'Hello, $userName',
+                'Hello, ${globals.userName}',
                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 32),
-
-              // Settings button
               Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+                    borderRadius: BorderRadius.circular(16)),
                 elevation: 3,
                 child: ListTile(
                   leading: const Icon(Icons.settings, color: Colors.blueAccent),
                   title: const Text('Settings'),
                   trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    // Navigate to settings page (optional)
-                  },
+                  onTap: () {},
                 ),
               ),
               const SizedBox(height: 16),
-
-              // Toggle Power
               Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+                    borderRadius: BorderRadius.circular(16)),
                 elevation: 3,
                 child: SwitchListTile(
                   title: Text(
