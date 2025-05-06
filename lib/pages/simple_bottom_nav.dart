@@ -8,7 +8,7 @@ import 'profile.dart';
 class SimpleBottomNavigation extends StatelessWidget {
   final int currentIndex;
 
-  const SimpleBottomNavigation({Key? key, required this.currentIndex}) : super(key: key);
+  const SimpleBottomNavigation({super.key, required this.currentIndex});
 
   void _onItemTapped(BuildContext context, int index) {
     if (index == currentIndex) return; // Already on this page, do nothing
