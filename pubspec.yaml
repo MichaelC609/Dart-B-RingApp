@@ -37,7 +37,12 @@ dependencies:
   firebase_core: ^3.13.0
   firebase_messaging: ^15.2.5
   flutter_vlc_player: 7.4.3
-  http: ^1.4.0
+  gallery_saver_plus: ^3.2.4
+  http: ^1.2.2
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  permission_handler: ^11.3.0
+
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +65,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/profile_pic.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

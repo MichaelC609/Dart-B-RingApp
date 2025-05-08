@@ -2,15 +2,8 @@ import 'package:flutter/material.dart';
 import 'simple_bottom_nav.dart';
 import 'globals.dart' as globals;
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  bool _cameraOn = true;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               const CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/default_pfp.png'),
+                backgroundImage: AssetImage('assets/profile_pic.png'),
                 backgroundColor: Colors.grey,
               ),
               const SizedBox(height: 12),
@@ -42,7 +35,9 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 32),
               Card(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16)),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                
                 elevation: 3,
                 child: ListTile(
                   leading: const Icon(Icons.settings, color: Colors.blueAccent),
@@ -51,27 +46,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () {},
                 ),
               ),
-              const SizedBox(height: 16),
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16)),
-                elevation: 3,
-                child: SwitchListTile(
-                  title: Text(
-                    _cameraOn ? 'Power Off Camera' : 'Power On Camera',
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  secondary: Icon(
-                    _cameraOn ? Icons.power_settings_new : Icons.power_off,
-                    color: _cameraOn ? Colors.green : Colors.redAccent,
-                  ),
-                  value: _cameraOn,
-                  onChanged: (value) {
-                    setState(() {
-                      _cameraOn = value;
-                    });
-                  },
-                ),
+              const SizedBox(height: 40),
+              const Text(
+                'Created by:\nJoshua Estrada, Sean Sang,\nJason Mar, Michael Castillo',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, color: Colors.black54),
               ),
             ],
           ),
