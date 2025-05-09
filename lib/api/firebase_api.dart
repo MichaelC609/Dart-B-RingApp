@@ -32,5 +32,16 @@ class FirebaseApi {
 
     // attach event listeners
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.notification != null) {
+        print(
+            'Foreground notification received: ${message.notification!.title}');
+        navigatorKey.currentState?.pushNamed(
+          '/notification_screen',
+          arguments: message,
+        );
+      }
+    });
   }
 }
