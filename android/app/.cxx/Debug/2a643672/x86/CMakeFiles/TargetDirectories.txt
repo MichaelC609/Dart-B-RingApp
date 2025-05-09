@@ -1,2 +1,0 @@
-D:/Documents/GitHub/Dart-B-RingApp/android/app/.cxx/Debug/2a643672/x86/CMakeFiles/edit_cache.dir
-D:/Documents/GitHub/Dart-B-RingApp/android/app/.cxx/Debug/2a643672/x86/CMakeFiles/rebuild_cache.dir

@@ -11,9 +11,13 @@ class LivePage extends StatefulWidget {
 
 class _LivePageState extends State<LivePage> {
   final List<_CameraStream> _cameras = [
-    _CameraStream(title: 'Front Door', url: 'rtmp://ubuntudoorbell.duckdns.org/live/test123'),
+    _CameraStream(
+        title: 'Front Door',
+        url: 'rtmp://ubuntudoorbell.duckdns.org/live/test123'),
     _CameraStream(title: 'Backyard', url: ''),
-    _CameraStream(title: 'Garage', url: ''),
+    _CameraStream(
+        title: 'Parking Lot',
+        url: 'rtmp://ubuntudoorbell.duckdns.org/live/testgif'),
   ];
 
   @override
@@ -45,7 +49,8 @@ class _LivePageState extends State<LivePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(cam.title,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
             const SizedBox(height: 12),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
@@ -57,7 +62,8 @@ class _LivePageState extends State<LivePage> {
                     VlcPlayer(
                       controller: cam.controller!,
                       aspectRatio: 16 / 9,
-                      placeholder: const Center(child: CircularProgressIndicator()),
+                      placeholder:
+                          const Center(child: CircularProgressIndicator()),
                     ),
                     if (!cam.isPlaying)
                       Container(
@@ -66,10 +72,12 @@ class _LivePageState extends State<LivePage> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.videocam_off, size: 64, color: Colors.white),
+                              Icon(Icons.videocam_off,
+                                  size: 64, color: Colors.white),
                               SizedBox(height: 8),
                               Text('Preview Unavailable',
-                                  style: TextStyle(fontSize: 18, color: Colors.white)),
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white)),
                             ],
                           ),
                         ),

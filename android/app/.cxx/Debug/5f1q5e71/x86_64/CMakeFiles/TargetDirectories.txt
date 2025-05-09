@@ -1,2 +1,0 @@
-C:/Users/JASON/Downloads/School/Spring 2025/CS 4080/Dart-B-RingApp/android/app/.cxx/Debug/5f1q5e71/x86_64/CMakeFiles/edit_cache.dir
-C:/Users/JASON/Downloads/School/Spring 2025/CS 4080/Dart-B-RingApp/android/app/.cxx/Debug/5f1q5e71/x86_64/CMakeFiles/rebuild_cache.dir
