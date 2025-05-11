@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'live.dart';
-import 'gallery.dart';
 import 'logs.dart';
 import 'profile.dart';
 
@@ -22,12 +21,9 @@ class SimpleBottomNavigation extends StatelessWidget {
         destination = const LivePage();
         break;
       case 2:
-        destination = const GalleryPage();
-        break;
-      case 3:
         destination = const LogsPage();
         break;
-      case 4:
+      case 3:
         destination = const ProfilePage();
         break;
       default:
@@ -56,10 +52,6 @@ class SimpleBottomNavigation extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.video_camera_back_outlined),
           label: 'Live',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.photo_library_sharp),
-          label: 'Gallery',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.receipt_long_outlined),

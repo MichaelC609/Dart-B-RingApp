@@ -185,7 +185,7 @@ class _LogsPageState extends State<LogsPage> {
           }
         },
       ),
-      bottomNavigationBar: const SimpleBottomNavigation(currentIndex: 3),
+      bottomNavigationBar: const SimpleBottomNavigation(currentIndex: 2),
     );
   }
 }

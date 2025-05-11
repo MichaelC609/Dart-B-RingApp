@@ -6,7 +6,6 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'gallery.dart';
 import 'logs.dart';
 import 'simple_bottom_nav.dart';
 import 'globals.dart' as globals;
@@ -237,25 +236,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
 
-              const SizedBox(height: 20),
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16)),
-                elevation: 3,
-                child: ListTile(
-                  leading: const Icon(Icons.photo_library, color: Colors.teal),
-                  title: const Text('Gallery'),
-                  subtitle: const Text('Browse saved videos'),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const GalleryPage()),
-                    );
-                  },
-                ),
-              ),
+             
               const SizedBox(height: 12),
               Card(
                 shape: RoundedRectangleBorder(
