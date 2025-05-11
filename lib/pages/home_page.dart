@@ -9,6 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'logs.dart';
 import 'simple_bottom_nav.dart';
 import 'globals.dart' as globals;
+import 'package:archive/archive_io.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -137,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                       controller: _clipDurationController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                        labelText: 'Clip Duration (600 sec MAX)',
+                        labelText: 'Clip Duration (30 sec MAX)',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -149,73 +150,108 @@ class _HomePageState extends State<HomePage> {
 
                         if (duration == null ||
                             duration <= 0 ||
-                            duration > 600) {
+                            duration > 30) {
                           if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text(
-                                  'Please enter a number between 1 and 600'),
-                            ),
+                                content: Text(
+                                    'Please enter a number between 1 and 30')),
                           );
                           return;
                         }
 
                         try {
-                          // ✅ Generate filename based on timestamp
                           final now = DateTime.now();
-                          final fileName =
-                              'clip_${now.toIso8601String().replaceAll(':', '-')}.mp4';
+                          final timestamp = now
+                              .toIso8601String()
+                              .replaceAll(RegExp(r'[:.]'), '-');
+                          final tempDir = await getTemporaryDirectory();
 
-                          // ✅ Get temporary directory
-                          final dir = await getTemporaryDirectory();
-                          final filePath = '${dir.path}/$fileName';
-
-                          // ✅ Request storage permission if needed
-                          // Request storage permission
-                          final granted = await requestStoragePermission();
-                          if (!granted) {
-                            if (!mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text('Storage permission is required')),
-                            );
-                            return;
-                          }
-
-                          // ✅ Download the file using http
                           final url = Uri.parse(
                               "http://ubuntudoorbell.duckdns.org:5000/clip?seconds=$duration");
                           final request = http.Request('GET', url);
-                          final streamedResponse =
-                              await http.Client().send(request);
+                          final response = await http.Client().send(request);
 
-                          if (streamedResponse.statusCode == 200) {
+                          if (response.statusCode == 200) {
+                            final contentType =
+                                response.headers['content-type'] ?? '';
+                            final isZip = contentType.contains('zip');
+                            final ext = isZip ? 'zip' : 'mp4';
+                            final fileName = '$timestamp.$ext';
+                            final filePath = path.join(tempDir.path, fileName);
                             final file = File(filePath);
+
+                            // Download and write to file
                             final sink = file.openWrite();
-                            await streamedResponse.stream.pipe(sink);
+                            await response.stream.pipe(sink);
+                            await sink.flush();
                             await sink.close();
 
-                            final saved =
-                                await GallerySaver.saveVideo(file.path);
-                            if (!mounted) return;
-                            if (saved ?? false) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Clip saved to gallery')),
-                              );
+                            if (isZip) {
+                              final bytes = await file.readAsBytes();
+                              final archive = ZipDecoder().decodeBytes(bytes);
+
+                              String? extractedPath;
+
+                              for (final archiveFile in archive) {
+                                if (archiveFile.isFile &&
+                                    archiveFile.name.endsWith('.mp4') &&
+                                    archiveFile.name.startsWith('clip_')) {
+                                  final outputPath =
+                                      path.join(tempDir.path, archiveFile.name);
+                                  final outFile = File(outputPath);
+                                  await outFile.writeAsBytes(
+                                      archiveFile.content as List<int>);
+                                  extractedPath = outputPath;
+                                  break;
+                                }
+                              }
+
+                              if (extractedPath != null) {
+                                final saved =
+                                    await GallerySaver.saveVideo(extractedPath);
+                                if (!mounted) return;
+                                if (saved ?? false) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Extracted clip saved to gallery')),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Failed to save extracted clip')),
+                                  );
+                                }
+                              } else {
+                                if (!mounted) return;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('No .mp4 found in ZIP')),
+                                );
+                              }
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Failed to save clip')),
-                              );
+                              final saved =
+                                  await GallerySaver.saveVideo(file.path);
+                              if (!mounted) return;
+                              if (saved ?? false) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Clip saved to gallery')),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Failed to save clip')),
+                                );
+                              }
                             }
                           } else {
                             throw Exception(
-                                "Download failed with status ${streamedResponse.statusCode}");
+                                "Download failed with status ${response.statusCode}");
                           }
                         } catch (e) {
-                          print(e.toString());
                           if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error: ${e.toString()}')),
@@ -236,7 +272,6 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
 
-             
               const SizedBox(height: 12),
               Card(
                 shape: RoundedRectangleBorder(

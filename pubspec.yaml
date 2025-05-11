@@ -42,7 +42,7 @@ dependencies:
   path_provider: ^2.1.1
   path: ^1.8.3
   permission_handler: ^11.3.0
-
+  archive: ^3.4.6
 
 dev_dependencies:
   flutter_test:
