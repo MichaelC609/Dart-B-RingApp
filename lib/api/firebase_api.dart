@@ -44,7 +44,7 @@ class FirebaseApi {
     // Remove handling of initial message
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       navigatorKey.currentState?.pushNamed(
-        '/notification_screen',
+        '/log_screen',
         arguments: message,
       );
     });
