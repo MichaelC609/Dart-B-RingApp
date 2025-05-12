@@ -43,6 +43,7 @@ dependencies:
   path: ^1.8.3
   permission_handler: ^11.3.0
   archive: ^3.4.6
+  url_launcher: ^6.2.5
 
 dev_dependencies:
   flutter_test:
@@ -65,7 +66,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
   assets:
     - assets/profile_pic.png
 
