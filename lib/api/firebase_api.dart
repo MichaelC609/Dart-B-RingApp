@@ -28,7 +28,7 @@ class FirebaseApi {
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 navigatorKey.currentState?.pushNamed(
-                  '/notification_screen',
+                  '/log_screen',
                   arguments: message,
                 );
               },
