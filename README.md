@@ -100,10 +100,9 @@ dependencies:
 flutter pub get
 ```
   
-Configure:
-RTMP stream URL (for VLC player)
-
-Clip request endpoint (Flask server on EC2)
+### Configure:
+- RTMP stream URL (for VLC player)
+- Clip request endpoint (Flask server on EC2)
 
 Build and run:
 ```bash
