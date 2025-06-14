@@ -163,10 +163,16 @@ class _LogsPageState extends State<LogsPage> {
                       });
                     }
                   },
-                  leading: photoUrl != null
-                      ? Image.network(photoUrl,
-                          width: 50, height: 50, fit: BoxFit.cover)
-                      : const Icon(Icons.image_not_supported),
+                  leading: Container(
+                    width: 50,
+                    height: 50,
+                    alignment: Alignment.center,
+                    child: photoUrl != null
+                        ? Image.network(photoUrl,
+                            width: 50, height: 50, fit: BoxFit.cover)
+                        : const Icon(Icons.image_not_supported,
+                            size: 30, color: Colors.grey),
+                  ),
                   title: Text(log['description']),
                   subtitle: Text(log['timestamp']),
                   trailing: _selectMode
